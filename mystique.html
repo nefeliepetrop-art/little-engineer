@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>You little engineer!</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: system-ui, Segoe UI, Roboto, sans-serif
+        }
+
+        .wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: linear-gradient(135deg, #ffefba, #ff7b7b)
+        }
+
+        h1 {
+            font-size: clamp(32px, 8vw, 96px);
+            margin: 0 0 8px;
+            text-align: center;
+            letter-spacing: 2px
+        }
+
+        p {
+            font-size: 18px;
+            margin: 0 0 20px;
+            opacity: .9
+        }
+
+        button {
+            padding: 12px 22px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .12)
+        }
+
+        .credit {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            opacity: .7;
+            font-size: 13px
+        }
+
+        /* simple confetti particles */
+        .confetti {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden
+        }
+
+        .confetti i {
+            position: absolute;
+            width: 10px;
+            height: 14px;
+            transform-origin: center;
+            opacity: 0.95;
+            border-radius: 2px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <h1>🦞YOU ARE MA LOB🦞</h1>
+        <p>All in good fun — you can close this tab when you're ready :)</p>
+        <button id="ok">Close & Forgive Me</button>
+        <div class="confetti" id="confetti"></div>
+        <div class="credit">MADE BY YOUR LOB🎉 — no not damilf mpofiliou</div>
+    </div>
+
+    <!-- Replace `sound.mp3` with your own short audio file name -->
+    <audio id="prankSound" preload="auto" src="sound.mp3"></audio>
+
+    <script>
+        // Play sound on first user interaction (browsers block autoplay)
+        function playPrank() {
+            const a = document.getElementById('prankSound');
+            if (a) a.play().catch(() => { });
+            startConfetti();
+            document.removeEventListener('click', playPrank);
+            document.removeEventListener('keydown', playPrank);
+        }
+        document.addEventListener('click', playPrank);
+        document.addEventListener('keydown', playPrank);
+
+        // close button
+        document.getElementById('ok').addEventListener('click', () => window.close());
+
+        // small confetti generator
+        function startConfetti() {
+            const wrap = document.getElementById('confetti');
+            for (let i = 0; i < 40; i++) {
+                const el = document.createElement('i');
+                el.style.left = Math.random() * 100 + '%';
+                el.style.top = Math.random() * 100 + '%';
+                el.style.background = ['#ff4d4d', '#ffd24d', '#4dff88', '#4dd0ff', '#b28dff'][Math.floor(Math.random() * 5)];
+                el.style.transform = `rotate(${Math.random() * 360}deg)`;
+                el.style.animation = `float ${3 + Math.random() * 2}s linear ${Math.random() * 1}s forwards`;
+                wrap.appendChild(el);
+            }
+        }  // small CSS animation insertion
+        const css = document.createElement('style');
+        css.innerHTML = `@keyframes float { to { transform: translateY(120vh) rotate(360deg); opacity:0 } }`;
+        document.head.appendChild(css);
+    </script>
+</body>
+
+</html>
